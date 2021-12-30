@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+    function deleteStudent(cId){
+    	swal({
+    		  title: "Are you sure?",
+    		  text: "You wan't to delete this student Once deleted, you will not be able to recover this student detail!",
+    		  icon: "warning",
+    		  buttons: true,
+    		  dangerMode: true,
+    		})
+    		.then((willDelete) => {
+    		  if (willDelete) {
+    		    window.location="/user/delete/"+cId;
+    		  } else {
+    		    swal("Student detail is safe!");
+    		  }
+    		});
+    }
+    </script>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <title th:text="${title}">Base HTML</title>
+  </head>
+  <body>
+    <!--Navbar-->
+    
+    <nav class="fixed-top navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">College Management System</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto text-uppercase">
+      <li class="nav-item active">
+        <a class="nav-link" th:href="@{/}" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+
+      <li class="nav-item">
+      <a class="nav-link" href="#">
+        <span th:text="${user.name}"></span></a>
+      </li>
+      
+       <li class="nav-item">
+        <a class="nav-link" th:href="@{/logout}" href="#">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- End Of Navbar -->
+<!-- sidebar -->
+<div class="sidebar">
+<span onclick="toggleSidebar()"class="crossBtn">&times;</span>
+<a href="" th:href="@{/user/index}" class="item"><i class="fas fa-home"></i> Home</a>
+<a href="" th:href="@{/user/show-students/0}"class="item"><i class="far fa-address-book"></i> View Students</a>
+<a href="" th:href="@{/user/add-contact}" class="item"><i class="fas fa-address-card"></i> Add Students</a>
+<a href="" class="item"><i class="fas fa-user-circle"></i> Your Profile</a>
+<a href="" class="item"><i class="fas fa-cog"></i> Settings</a>
+<a href="" th:href="@{/logout}" class="item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+<div class="divider"></div>
+</div>
+<!-- End Sidebar -->
+<!-- Content Area -->
+<div class="content">
+<i onclick="toggleSidebar()" class="fas fa-bars m-3"></i>
+<!-- Message box -->
+<div th:if="${session.message}" class="container">
+<div th:classappend="${'alert-'+session.message.type}" class="alert text-center" role="alert">
+  <span th:text="${session.message.content}"></span>
+</div>
+<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+</div>
+<div th:replace="${content}"></div>
+</div>
+<!-- End content area -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script th:src="@{js/script.js}"></script>
+  <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+      tinymce.init({
+        selector: '#mytextarea'
+      });
+    </script>
+  </body>
+</html>
