@@ -13,6 +13,7 @@
 	<div class="row">
 	<div class="col-md-10 offset-md-1">
 	<form action="#" th:object="${student}" enctype="multipart/form-data" method="POST" th:action="@{/user/process-update}" class="mt-2">
+	<input type="hidden" th:value="${student.cId}" name="cId">
 	<!-- First name -->
 	<div class="input-group">
 	<div class="input-group-prepend">

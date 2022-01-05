@@ -153,13 +153,26 @@ public class UserController {
 	}
 	//update student
 	@RequestMapping(value="/process-update",method=RequestMethod.POST)
-	public String updateHandler(@ModelAttribute Contact student,@RequestParam("profileImage") MultipartFile file,Model m,HttpSession session) {
+	public String updateHandler(@ModelAttribute Contact student,@RequestParam("profileImage") MultipartFile file,Model m,HttpSession session,Principal principal) {
 		try {
 			//image selection
+			//old contact detail
+			Contact oldStudentDetail=this.studentRepository.findById(student.getcId()).get();
 			if(!file.isEmpty()) {
 				//file work..
 				//rewrite
+				//delete old photo
+				//update new photo
+				File saveFile=new ClassPathResource("static/img").getFile();
+				Path path=Paths.get(saveFile.getAbsolutePath()+File.separator+file.getOriginalFilename());
+				Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
+				student.setImage(file.getOriginalFilename());
+			}else {
+				student.setImage(oldStudentDetail.getImage());
 			}
+			User user=this.userRepository.getUserByUserName(principal.getName());
+			student.setUser(user);
+			this.studentRepository.save(student);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
